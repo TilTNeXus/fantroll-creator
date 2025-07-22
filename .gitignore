@@ -4,5 +4,5 @@
 *.wasm
 *.data
 *.exe
-*.png
+assets/layers
 fantroll creator
