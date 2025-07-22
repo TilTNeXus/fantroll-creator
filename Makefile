@@ -12,7 +12,7 @@ CC_EM = emcc
 PRELOAD = --preload-file ./assets
 
 all : $(OBJS)
-	$(CC) -O3 $(OBJS) $(COMPILER_FLAGS) $(LIBRARY) $(INCLUDE) -lSDL3 -o $(NAME)
+	$(CC) -O3 $(OBJS) $(COMPILER_FLAGS) $(LIBRARY) $(INCLUDE) -lSDL3 -lm -lGL -o $(NAME)
 wasm : $(OBJS)
 	$(CC_EM) -O3 $(OBJS) $(COMPILER_FLAGS) -sUSE_SDL=3 -I./include $(PRELOAD) -s USE_WEBGL2=1 -s MIN_WEBGL_VERSION=2 -s MAX_WEBGL_VERSION=2 -s USE_FREETYPE=1 -o $(NAME).html
 mac : $(OBJS)
