@@ -261,8 +261,8 @@ void updateClickedButtonsColor(layertex *layer, int clicked) {
             b = 0;
             break;
         case 1: // bronze
-            r = 0xa2;
-            g = 0x52;
+            r = 0xa7;
+            g = 0x54;
             b = 0x03;
             break;
         case 2: // gold
@@ -271,24 +271,24 @@ void updateClickedButtonsColor(layertex *layer, int clicked) {
             b = 0x00;
             break;
         case 4: // breath bg
-            r = 0x2d;
-            g = 0x7b;
-            b = 0xee;
+            r = 0x00;
+            g = 0x87;
+            b = 0xeb;
             break;
         case 5: // breath fg
-            r = 0x00;
-            g = 0xe3;
-            b = 0xfd;
+            r = 0x12;
+            g = 0xe5;
+            b = 0xfb;
             break;
         case 6: // heart bg
-            r = 0x5d;
-            g = 0x0b;
-            b = 0x2a;
+            r = 0x6e;
+            g = 0x0e;
+            b = 0x2e;
             break;
         case 7: // heart fg
-            r = 0xcf;
-            g = 0x00;
-            b = 0x65;
+            r = 0xbd;
+            g = 0x18;
+            b = 0x64;
             break;
         case 8: // white
             r = 0xff;
@@ -296,12 +296,12 @@ void updateClickedButtonsColor(layertex *layer, int clicked) {
             b = 0xff;
             break;
         case 9: // lime
-            r = 0x65;
-            g = 0x82;
+            r = 0x6b;
+            g = 0x84;
             b = 0x00;
             break;
         case 10: // olive
-            r = 0x41;
+            r = 0x40;
             g = 0x66;
             b = 0x00;
             break;
@@ -311,24 +311,24 @@ void updateClickedButtonsColor(layertex *layer, int clicked) {
             b = 0x46;
             break;
         case 13: // light bg
-            r = 0xff;
-            g = 0x7d;
+            r = 0xf9;
+            g = 0x81;
             b = 0x00;
             break;
         case 14: // light fg
-            r = 0xf5;
-            g = 0xfa;
-            b = 0x00;
+            r = 0xf7;
+            g = 0xfb;
+            b = 0x4e;
             break;
         case 15: // life bg
-            r = 0xa7;
-            g = 0x96;
-            b = 0x85;
+            r = 0xcc;
+            g = 0xc3;
+            b = 0xb4;
             break;
         case 16: // life fg
-            r = 0x26;
-            g = 0xee;
-            b = 0x00;
+            r = 0x76;
+            g = 0xc3;
+            b = 0x4e;
             break;
         case 17: // light gray
             r = 0xc4;
@@ -351,24 +351,24 @@ void updateClickedButtonsColor(layertex *layer, int clicked) {
             b = 0xcb;
             break;
         case 22: // time bg
-            r = 0xc8;
-            g = 0x00;
-            b = 0x00;
+            r = 0xb7;
+            g = 0x0d;
+            b = 0x0e;
             break;
         case 23: // time fg
             r = 0xff;
-            g = 0x00;
-            b = 0x00;
+            g = 0x21;
+            b = 0x06;
             break;
         case 24: // blood bg
-            r = 0x44;
-            g = 0x13;
-            b = 0x00;
+            r = 0x3d;
+            g = 0x19;
+            b = 0x0a;
             break;
         case 25: // blood fg
-            r = 0xcb;
-            g = 0x00;
-            b = 0x00;
+            r = 0xba;
+            g = 0x10;
+            b = 0x16;
             break;
         case 26: // medium gray
             r = 0x98;
@@ -376,9 +376,9 @@ void updateClickedButtonsColor(layertex *layer, int clicked) {
             b = 0x98;
             break;
         case 27: // purple
-            r = 0x44;
-            g = 0x0a;
-            b = 0x7f;
+            r = 0x5e;
+            g = 0x00;
+            b = 0xa0;
             break;
         case 28: // violet
             r = 0x6a;
@@ -386,29 +386,29 @@ void updateClickedButtonsColor(layertex *layer, int clicked) {
             b = 0x6a;
             break;
         case 29: // fuchsia
-            r = 0x99;
-            g = 0x00;
-            b = 0x4d;
+            r = 0xb1;
+            g = 0x12;
+            b = 0x62;
             break;
         case 31: // mind bg
-            r = 0x00;
-            g = 0x95;
-            b = 0x2f;
+            r = 0x3d;
+            g = 0xa3;
+            b = 0x5a;
             break;
         case 32: // mind fg
-            r = 0x00;
-            g = 0xff;
-            b = 0xc6;
+            r = 0x82;
+            g = 0xdf;
+            b = 0xca;
             break;
         case 33: // hope
             r = 0xff;
-            g = 0xdc;
-            b = 0x1a;
+            g = 0xe0;
+            b = 0x94;
             break;
         case 34: // doom
-            r = 0x10;
-            g = 0x6a;
-            b = 0x00;
+            r = 0x20;
+            g = 0x40;
+            b = 0x20;
             break;
         case 35: // dark gray
             r = 0x6c;
@@ -418,42 +418,42 @@ void updateClickedButtonsColor(layertex *layer, int clicked) {
         case 36: // horn 1
             r = 0xff;
             g = 0x42;
-            b = 0x01;
+            b = 0x00;
             break;
         case 37: // horn 2
             r = 0xff;
-            g = 0x91;
+            g = 0x90;
             b = 0x00;
             break;
         case 38: // horn 3
             r = 0xff;
             g = 0xba;
-            b = 0x28;
+            b = 0x29;
             break;
         case 40: // void fg
-            r = 0x00;
-            g = 0x1b;
-            b = 0x5c;
+            r = 0x03;
+            g = 0x34;
+            b = 0x76;
             break;
         case 41: // void bg
             r = 0x00;
-            g = 0x4f;
-            b = 0xa8;
+            g = 0x16;
+            b = 0x4f;
             break;
         case 42: // rage bg
-            r = 0x5a;
-            g = 0x01;
-            b = 0x65;
+            r = 0x39;
+            g = 0x1e;
+            b = 0x71;
             break;
         case 43: // rage fg
-            r = 0xa8;
-            g = 0x47;
-            b = 0xb2;
+            r = 0x9c;
+            g = 0x4d;
+            b = 0xad;
             break;
-        case 44: // black
-            r = 0x00;
-            g = 0x00;
-            b = 0x00;
+        case 44: // almost black
+            r = 0x22;
+            g = 0x22;
+            b = 0x22;
             break;
         default:
             noChange = 1;
