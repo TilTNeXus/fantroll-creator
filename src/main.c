@@ -26,6 +26,7 @@ character characters[128];
 float cursorX;
 float cursorY;
 bool buttonsClicked[48] = {0};
+float cursorSpeed;
 
 mouseState cursor;
 keyStatus keys;
@@ -217,7 +218,13 @@ void initDrawing(void) {
     modelLoad(&models[8], "assets/models/64x64.obj");
     loadIntoVAO(&models[8]);
 
+    if (activeColorMode == 0) {
     textureLoad(&models[9].texture, "assets/tilesets/RGB_A2.png", GL_RGBA);
+    } else if (activeColorMode == 1) {
+        textureLoad(&models[9].texture, "assets/tilesets/HSL_A2.png", GL_RGBA);
+    } else {
+        textureLoad(&models[9].texture, "assets/tilesets/HEX_A2.png", GL_RGBA);
+    }
     modelLoad(&models[9], "assets/models/colorui.obj");
     loadIntoVAO(&models[9]);
 
@@ -358,6 +365,7 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
         cursor.x = keys.mouse.x;
         cursor.y = SCREEN_HEIGHT - keys.mouse.y;
     }
+    cursorSpeed = 240.0 * deltaTime;
     draw();
     keys.pressed.left = 0;
     keys.pressed.down = 0;

@@ -43,7 +43,6 @@ void inputTitleScreen(void) {
             SDL_PushEvent(&quit);
         }
     }
-    float cursorSpeed = 200.0 * deltaTime;
     if (keys.held.down) {
         float updated = cursor.y - cursorSpeed;
         if (0 <= updated) cursor.y = updated;

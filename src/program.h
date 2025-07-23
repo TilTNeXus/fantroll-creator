@@ -147,3 +147,4 @@ extern float cursorX;
 extern float cursorY;
 extern bool buttonsClicked[48];
 extern int clicked;
+extern float cursorSpeed;
