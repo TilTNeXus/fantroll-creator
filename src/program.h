@@ -25,12 +25,10 @@
 #define AMT_SIGIL 301
 #define AMT_UPPER 244
 
-#ifdef __APPLE__
-#include <OpenGL/gl3.h>
-#elif EMSCRIPTEN
+#ifdef EMSCRIPTEN
 #include <GLES3/gl3.h>
 #else
-#include <GL/gl.h>
+#include <GL/glew.h>
 #endif
 
 #include "stb_image.h"

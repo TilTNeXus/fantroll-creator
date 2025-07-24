@@ -8,7 +8,7 @@ A remake of [Xamag's Fantroll Creator](https://xamag.itch.io/fantroll-creator) w
 
 ## Build Instructions
 * Install SDL3
-* I don't remember how exactly I made OpenGL work, but I'll change this later
+* On Linux and Mac, install GLEW
 * For Linux, run `make`
 * For other platforms, run `make <platform>` with platform being `mac`, `wasm`
 

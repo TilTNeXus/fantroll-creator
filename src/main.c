@@ -353,8 +353,13 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv) {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
     window = SDL_CreateWindow("Fantroll Creator", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
     context = SDL_GL_CreateContext(window);
-    if (strstr((const char*)glGetString(GL_VERSION), "OpenGL ES")) isGLES = true;
-
+    
+    #ifdef EMSCRIPTEN
+    isGLES = true;
+    #else 
+    glewInit();
+    #endif
+    
     SDL_HideCursor();
     
     initDrawing();
