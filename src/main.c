@@ -21,11 +21,11 @@ bool running;
 uint64_t ticks;
 float deltaTime = 0.0;
 bool isGLES = false;
-char activeScreen[16] = "colors";
+char activeScreen[16] = "creator";
 character characters[128];
 float cursorX;
 float cursorY;
-bool buttonsClicked[48] = {0};
+bool buttonsClicked[64] = {0};
 float cursorSpeed;
 
 mouseState cursor;
@@ -34,6 +34,8 @@ keyStatus keys;
 int activeCategory = 0;
 int activeColorMode = 1;
 layertex *editingLayer = NULL;
+int sliderX[3];
+vec3f originalColor;
 
 framebuffer screenFB;
 framebuffer creatorFB;
@@ -137,15 +139,22 @@ SDL_AppResult SDL_AppEvent (void *appstate, SDL_Event *event) {
         case SDL_EVENT_MOUSE_BUTTON_UP:
             keys.mouse.held = 0;
             keys.mouse.released = 1;
-            for (int i = 0; i < 48; i++) {
+            for (int i = 0; i < 64; i++) {
                 buttonsClicked[i] = 0;
             }
             break;   
         case SDL_EVENT_FINGER_DOWN:
+            keys.mouse.clicked = 1;
+            SDL_WarpMouseInWindow(window, event->tfinger.x * SCREEN_WIDTH, event->tfinger.y * SCREEN_HEIGHT);
+        case SDL_EVENT_FINGER_MOTION:
+            keys.mouse.held = 1;
             SDL_WarpMouseInWindow(window, event->tfinger.x * SCREEN_WIDTH, event->tfinger.y * SCREEN_HEIGHT);
             break;
         case SDL_EVENT_FINGER_UP:
-            keys.mouse.clicked = 1;
+            keys.mouse.held = 0;
+            keys.mouse.released = 1;
+            cursor.x = keys.mouse.x;
+            cursor.y = SCREEN_HEIGHT - keys.mouse.y;
             break;
         default:
             break;

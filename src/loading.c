@@ -246,7 +246,7 @@ void createFramebuffer(framebuffer *fb, int width, int height, int offsetX) {
 
     glGenRenderbuffers(1, &fb->rbo);
     glBindRenderbuffer(GL_RENDERBUFFER, fb->rbo);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, SCREEN_WIDTH, SCREEN_HEIGHT);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, fb->rbo);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -706,17 +706,44 @@ void drawNumbersColors(modelinfo mdl, layertex layer, unsigned int shader) {
     glBindVertexArray(mdl.vao);
 
     float num1, num2, num3;
-    if (activeColorMode == 0) {
-        num1 = layer.r * 255;
-        num2 = layer.g * 255;
-        num3 = layer.b * 255;
-    }
-    if (activeColorMode == 1) {
+    num1 = num2 = num3 = 0;
+    if (activeColorMode != 1) {
+        num1 = roundf((float)layer.r * 255);
+        num2 = roundf((float)layer.g * 255);
+        num3 = roundf((float)layer.b * 255);
+        sliderX[0] = layer.r * 480 + 66;
+        sliderX[1] = layer.g * 480 + 66;
+        sliderX[2] = layer.b * 480 + 66;
+    } else {
         RGBtoHSL(&num1, &num2, &num3, layer.r, layer.g, layer.b);
-        num1 *= 360;
-        num2 *= 100;
-        num3 *= 100;
+        sliderX[0] = num1 * 480 + 66;
+        sliderX[1] = num2 * 480 + 66;
+        sliderX[2] = num3 * 480 + 66;
+        num1 = roundf((float)num1*360);
+        num2 = roundf((float)num2*100);
+        num3 = roundf((float)num3*100);
     }
+    if (activeColorMode == 2) {
+        int hex1 = ((int)num1 / 16) + 368;
+        int hex2 = ((int)num1 % 16) + 368;
+        int hex3 = ((int)num2 / 16) + 368;
+        int hex4 = ((int)num2 % 16) + 368;
+        int hex5 = ((int)num3 / 16) + 368;
+        int hex6 = ((int)num3 % 16) + 368;
+        mat4f_init(model);
+        mat4f_trans_translate(model, 225.0, 68.0, -5.0);
+        drawNumber(mdl, shader, hex1, scaleX, scaleY);
+        mat4f_trans_translate(model, 32.0, 0.0, 0.0);
+        drawNumber(mdl, shader, hex2, scaleX, scaleY);
+        mat4f_trans_translate(model, 32.0, 0.0, 0.0);
+        drawNumber(mdl, shader, hex3, scaleX, scaleY);
+        mat4f_trans_translate(model, 32.0, 0.0, 0.0);
+        drawNumber(mdl, shader, hex4, scaleX, scaleY);
+        mat4f_trans_translate(model, 32.0, 0.0, 0.0);
+        drawNumber(mdl, shader, hex5, scaleX, scaleY);
+        mat4f_trans_translate(model, 32.0, 0.0, 0.0);
+        drawNumber(mdl, shader, hex6, scaleX, scaleY);
+    } else {
         mat4f_init(model);
         mat4f_trans_translate(model, 577.0, 100.0, -5.0);
         drawNumber(mdl, shader, num1, scaleX, scaleY);
@@ -724,4 +751,65 @@ void drawNumbersColors(modelinfo mdl, layertex layer, unsigned int shader) {
         drawNumber(mdl, shader, num2, scaleX, scaleY);
         mat4f_trans_translate(model, 0.0, -32.0, 0.0);
         drawNumber(mdl, shader, num3, scaleX, scaleY);
+    }
+}
+
+void drawArrowColors(modelinfo mdl, unsigned int shader, bool hex, bool direction, bool clicked, float scaleX, float scaleY) {
+    // direction = 0: up
+    // direction = 1: down
+    float uOffset = (3 * hex + direction) * scaleX;
+    float vOffset = 1.0 - (5 + clicked) * scaleY;
+    glUniform1f(glGetUniformLocation(shader, "uOffset"), uOffset);
+    glUniform1f(glGetUniformLocation(shader, "vOffset"), vOffset);
+    glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, model);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
+void drawArrowsColors(modelinfo mdl, unsigned int shader) {
+    float scaleX = 32.0/mdl.texture.width;
+    float scaleY = 32.0/mdl.texture.height;
+    glUseProgram(shader);
+    glUniform1f(glGetUniformLocation(shader, "scaleX"), scaleX);
+    glUniform1f(glGetUniformLocation(shader, "scaleY"), scaleY);
+    glUniformMatrix4fv(glGetUniformLocation(shader, "view"), 1, GL_FALSE, view);
+    glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, GL_FALSE, projection);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, mdl.texture.tex);
+    glBindVertexArray(mdl.vao);
+    mat4f_init(model);
+    if (activeColorMode != 2) {
+        mat4f_trans_translate(model, sliderX[0], 96.0, -5.0);
+        drawArrowColors(mdl, shader, 0, 0, 0, scaleX, scaleY);
+        mat4f_init(model);
+        mat4f_trans_translate(model, sliderX[1], 64.0, -5.0);
+        drawArrowColors(mdl, shader, 0, 0, 0, scaleX, scaleY);
+        mat4f_init(model);
+        mat4f_trans_translate(model, sliderX[2], 32.0, -5.0);
+        drawArrowColors(mdl, shader, 0, 0, 0, scaleX, scaleY);
+    } else {
+        mat4f_trans_translate(model, 224.0, 100.0, -5.0);
+        drawArrowColors(mdl, shader, 1, 0, buttonsClicked[45], scaleX, scaleY);
+        mat4f_trans_translate(model, 32.0, 0.0, 0.0);
+        drawArrowColors(mdl, shader, 1, 0, buttonsClicked[46], scaleX, scaleY);
+        mat4f_trans_translate(model, 32.0, 0.0, 0.0);
+        drawArrowColors(mdl, shader, 1, 0, buttonsClicked[47], scaleX, scaleY);
+        mat4f_trans_translate(model, 32.0, 0.0, 0.0);
+        drawArrowColors(mdl, shader, 1, 0, buttonsClicked[48], scaleX, scaleY);
+        mat4f_trans_translate(model, 32.0, 0.0, 0.0);
+        drawArrowColors(mdl, shader, 1, 0, buttonsClicked[49], scaleX, scaleY);
+        mat4f_trans_translate(model, 32.0, 0.0, 0.0);
+        drawArrowColors(mdl, shader, 1, 0, buttonsClicked[50], scaleX, scaleY);
+        mat4f_trans_translate(model, -160.0, -64.0, 0.0);
+        drawArrowColors(mdl, shader, 1, 1, buttonsClicked[51], scaleX, scaleY);
+        mat4f_trans_translate(model, 32.0, 0.0, 0.0);
+        drawArrowColors(mdl, shader, 1, 1, buttonsClicked[52], scaleX, scaleY);
+        mat4f_trans_translate(model, 32.0, 0.0, 0.0);
+        drawArrowColors(mdl, shader, 1, 1, buttonsClicked[53], scaleX, scaleY);
+        mat4f_trans_translate(model, 32.0, 0.0, 0.0);
+        drawArrowColors(mdl, shader, 1, 1, buttonsClicked[54], scaleX, scaleY);
+        mat4f_trans_translate(model, 32.0, 0.0, 0.0);
+        drawArrowColors(mdl, shader, 1, 1, buttonsClicked[55], scaleX, scaleY);
+        mat4f_trans_translate(model, 32.0, 0.0, 0.0);
+        drawArrowColors(mdl, shader, 1, 1, buttonsClicked[56], scaleX, scaleY);
+    }
 }

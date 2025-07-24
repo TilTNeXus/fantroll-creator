@@ -27,8 +27,10 @@
 
 #ifdef __APPLE__
 #include <OpenGL/gl3.h>
-#else
+#elif EMSCRIPTEN
 #include <GLES3/gl3.h>
+#else
+#include <GL/gl.h>
 #endif
 
 #include "stb_image.h"
@@ -145,6 +147,9 @@ extern int activeColorMode;
 extern layertex *editingLayer;
 extern float cursorX;
 extern float cursorY;
-extern bool buttonsClicked[48];
+extern bool buttonsClicked[64];
 extern int clicked;
 extern float cursorSpeed;
+extern int sliderX[3];
+extern int editingSlider;
+extern vec3f originalColor;

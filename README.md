@@ -1,6 +1,7 @@
 # Xamag's Fantroll Creator
 
-A remake of [Xamag's Fantroll Creator](https://xamag.itch.io/fantroll-creator) with SDL3 and OpenGL.
+A remake of [Xamag's Fantroll Creator](https://xamag.itch.io/fantroll-creator) with SDL3 and OpenGL. I don't know a great deal about graphics programming, so don't expect this project to be super performant or anything. 
+
 * Cross platform (Only tested Mac, Linux, and WebAssembly so far)
 * Mouse controls
 * Mobile support

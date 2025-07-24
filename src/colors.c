@@ -1,8 +1,13 @@
 #include "program.h"
 #include "titlescreen.h"
 
+int editingSlider = -1;
+
 void loadColors(void) {
     strcpy(activeScreen, "colors");
+    originalColor[0] = editingLayer->r;
+    originalColor[1] = editingLayer->g;
+    originalColor[2] = editingLayer->b;
 }
 
 void inputColors(void) {
@@ -11,9 +16,16 @@ void inputColors(void) {
     }
     if (keys.mouse.clicked) {
         clicked = detectUIButtonsColor(cursor);
+        if (mouseInBox(cursor, 0, SCREEN_WIDTH, 96, 128)) editingSlider = 0;
+        else if (mouseInBox(cursor, 0, SCREEN_WIDTH, 64, 96)) editingSlider = 1;
+        else if (mouseInBox(cursor, 0, SCREEN_WIDTH, 32, 64)) editingSlider = 2;
+    }
+    if (keys.mouse.held) {
+        updateSlidersColor(cursor, editingLayer);
     }
     if (keys.mouse.released) {
         updateClickedButtonsColor(editingLayer, clicked);
+        editingSlider = -1;
     }
     if (keys.held.down) {
         float updated = cursor.y - cursorSpeed;
@@ -47,13 +59,14 @@ void drawColors(void) {
     glUseProgram(shaderProgram[1]);
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram[1], "view"), 1, GL_FALSE, view);
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram[1], "projection"), 1, GL_FALSE, projection);
-    editingLayer = &body;
+
     mat4f_init(model);
     mat4f_trans_scale(model, 0.5, 0.5, 1.0);
     mat4f_trans_translate(model, 56.0, 216.0, -11.0);
     drawCreatorLayer(editingLayer);
 
     drawNumbersColors(models[6], *editingLayer, shaderProgram[2]);
+    drawArrowsColors(models[7], shaderProgram[2]);
     mat4f_init(model);
     mat4f_trans_translate(model, 0.0, 0.0, -10.0);
     loadUniformsAndDrawTexturedOffset(models[10], shaderProgram[0], models[5].texture.tex, models[10].size*activeColorMode/3, models[10].size/3);
