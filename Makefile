@@ -1,4 +1,4 @@
-OBJS = src/main.c src/mat4f.c src/vec3f.c src/camera.c src/loading.c src/titlescreen.c src/mouse.c src/text.c src/creator.c src/colors.c
+OBJS = src/main.c src/mat4f.c src/vec3f.c src/camera.c src/loading.c src/titlescreen.c src/mouse.c src/text.c src/creator.c src/colors.c src/drawing.c
 NAME = fantroll\ creator
 
 COMPILER_FLAGS = -Wall

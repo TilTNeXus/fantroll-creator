@@ -1,4 +1,5 @@
 #include "program.h"
+#include "drawing.h"
 #include "titlescreen.h"
 
 void loadCreator(void) {

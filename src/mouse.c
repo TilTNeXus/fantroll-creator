@@ -610,8 +610,6 @@ void updateClickedButtonsColor(layertex *layer, int clicked) {
             noChange = 1;
             break;
     }
-
-    printf("%d\n", clicked);
     if (clicked < 45 && !noChange) {
             layer->r = r/255.0;
             layer->g = g/255.0;
