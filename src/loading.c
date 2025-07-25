@@ -439,3 +439,267 @@ void HSLtoRGB(float *r, float *g, float *b, float h, float s, float l) {
     *g += m;
     *b += m;
 }
+
+int calcOdds(int *choices, int *odds, int length) {
+    int oddsSum = 0;
+    for (int i = 0; i < length; i++) {
+        oddsSum += odds[i];
+    }
+    int randPick = SDL_rand(oddsSum);
+    int newSum = 0;
+    for (int i = 0; i < length; i++) {
+        if (randPick >= newSum && randPick < newSum + odds[i]) {
+            return choices[i];
+        }
+        newSum += odds[i];
+    }
+    return 0;
+}
+
+void setColorFromHex(layertex *layer, int color) {
+    layer->r = (float)((color & 0xff0000) >> 16) / 255;
+    layer->g = (float)((color & 0x00ff00) >> 8) / 255;
+    layer->b = (float)(color & 0x0000ff) / 255;
+}
+
+void copyColors(layertex *dest, layertex *src) {
+    dest->r = src->r;
+    dest->g = src->g;
+    dest->b = src->b;
+}
+
+void fixEyeType(layertex *layer, int *choices, int *odds, int length, int regEyeColor, int blEyeColor) {
+    int layerAsset = layer->asset;
+    int eyesType = calcOdds(choices, odds, length);
+    int eyeVal = (layerAsset - 1) % 3;
+
+    if (eyesType == 0) { // regular
+        if (eyeVal == 1) {
+            loadCreatorTextureNoColor(layer, layerAsset - 1);
+        } else if (eyeVal == 2) {
+            loadCreatorTextureNoColor(layer, layerAsset - 2);
+        }
+        setColorFromHex(layer, regEyeColor);
+    } else if (eyesType == 1) { // blank
+        if (eyeVal == 0) {
+            loadCreatorTextureNoColor(layer, layerAsset + 1);
+        } else if (eyeVal == 2) {
+            loadCreatorTextureNoColor(layer, layerAsset - 1);
+        }
+        setColorFromHex(layer, blEyeColor);
+    } else { // weird
+        if (eyeVal == 0) {
+            loadCreatorTextureNoColor(layer, layerAsset + 2);
+        } else if (eyeVal == 1) {
+            loadCreatorTextureNoColor(layer, layerAsset + 1);
+        }
+        setColorFromHex(layer, regEyeColor);
+    } 
+}
+
+void leftEyeCheck(int regEyeColor, int blEyeColor) {
+    int eyeVal1 = eyeR.asset % 3;
+    int eyeVal2 = eyeL.asset % 3;
+
+    if (eyeVal1 == 1) {
+        if (eyeVal2 == 1) {
+            copyColors(&eyeL, &eyeR);
+        } else if (eyeVal2 == 2) {
+            setColorFromHex(&eyeL, blEyeColor);
+            setColorFromHex(&eyeR, 0x222222);
+        } else {
+            if (caste == 7) {
+                copyColors(&eyeL, &eyeR);
+            } else {
+                int lEyesChoices[2] = {0, 1};
+                int lEyesOdds[2] = {50, 50};
+                fixEyeType(&eyeL, lEyesChoices, lEyesOdds, 2, regEyeColor, blEyeColor);
+                leftEyeCheck(regEyeColor, blEyeColor);
+            }
+        }
+    } else if (eyeVal1 == 2) {
+        if (eyeVal2 == 1) {
+            setColorFromHex(&eyeL, 0x222222);
+        } else if (eyeVal2 == 2) {
+            copyColors(&eyeL, &eyeR);
+        } else {
+            if (caste == 7) {
+                setColorFromHex(&eyeL, 0x222222);
+            } else {
+                int lEyesChoices[2] = {0, 1};
+                int lEyesOdds[2] = {50, 50};
+                fixEyeType(&eyeL, lEyesChoices, lEyesOdds, 2, regEyeColor, blEyeColor);
+                leftEyeCheck(regEyeColor, blEyeColor);
+            }
+        }
+    }
+}
+
+void randomizeTrollPerfect(int *colorChoices, int *colorChoices2, int randomColor, int regEyeColor, int blEyeColor) {
+    int hornsChoices[2] = {hornL.asset, hornR.asset};
+    int hornsOdds[2] = {90, 10};
+    loadCreatorTextureNoColor(&hornR, calcOdds(hornsChoices, hornsOdds, 2));
+
+    // back, hats, face, cloth, mouth
+    int odds1[5][5] = { {2, 60, 2, 35, 1},
+                        {5, 80, 5, 5, 5},
+                        {15, 30, 0, 5, 50},
+                        {20, 30, 5, 40, 5},
+                        {25, 25, 45, 5, 0}
+                    };
+
+    int coloredClothOdds[5] = {40, 35, 20, 1, 4};
+    int blackClothOdds[5] = {0, 45, 30, 5, 20};
+    int whiteClothOdds[5] = {35, 40, 20, 5, 0};
+
+    int regularHairOdds[5] = {95, 1, 0, 1, 3};
+    int coloredHairOdds[5] = {2, 75, 3, 15, 5};
+
+    layertex *parts1[5] = {&acc_back, &acc_hats, &acc_face, &acc_cloth, &mouth};
+    for (int i = 0; i < 5; i++) {
+        int color = calcOdds(colorChoices, odds1[i], 5);
+        setColorFromHex(parts1[i], color);
+    }
+
+    // hair
+    int randPick1 = calcOdds(colorChoices, regularHairOdds, 5);
+    int randPick2 = calcOdds(colorChoices, coloredHairOdds, 5);
+    if (hair.asset <= 145) {
+        if (bangs.asset <= 88) {
+            setColorFromHex(&bangs, randPick1);
+            copyColors(&hair, &bangs);
+        } else {
+            setColorFromHex(&bangs, randPick2);
+            hair.r = hair.g = hair.b = 34.0/255.0;
+        }
+    } else {
+        if (bangs.asset <= 88) {
+            bangs.r = bangs.g = bangs.b = 34.0/255.0;
+            setColorFromHex(&hair, randPick2);
+        } else {
+            setColorFromHex(&bangs, randPick1);
+            copyColors(&hair, &bangs);
+        }
+    }
+
+    // upper and sigil
+    if (upper.asset <= 86) {
+        randPick1 = calcOdds(colorChoices, coloredClothOdds, 5);
+    } else if (upper.asset <= 206) {
+        randPick1 = calcOdds(colorChoices, blackClothOdds, 5);
+    } else {
+        randPick1 = calcOdds(colorChoices, whiteClothOdds, 5);
+    }
+    setColorFromHex(&upper, randPick1);
+
+    int sigilOdds[4] = {0};
+    if (randPick1 == 0x222222) {
+        sigilOdds[0] = 5; sigilOdds[1] = 75; sigilOdds[2] = 0; sigilOdds[3] = 10;
+    } else if (randPick1 == 0xffffff) {
+        sigilOdds[0] = 50; sigilOdds[1] = 40; sigilOdds[2] = 0; sigilOdds[3] = 5;
+    } else if (randPick1 == randomColor) {
+        sigilOdds[0] = 60; sigilOdds[1] = 30; sigilOdds[2] = 0; sigilOdds[3] = 10;
+    } else {
+        sigilOdds[0] = 65; sigilOdds[1] = 5; sigilOdds[2] = 0; sigilOdds[3] = 30;
+    }
+    int sigilColor = calcOdds(colorChoices2, sigilOdds, 4);
+    setColorFromHex(&sigil, sigilColor);
+
+    // bottom and shoes
+    if (bottom.asset <= 72) {
+        randPick1 = calcOdds(colorChoices, coloredClothOdds, 5);
+    } else if (bottom.asset <= 93) {
+        randPick1 = calcOdds(colorChoices, blackClothOdds, 5);
+    } else {
+        randPick1 = calcOdds(colorChoices, whiteClothOdds, 5);
+    }
+    setColorFromHex(&bottom, randPick1);
+
+    if (shoeL.asset <= 21) {
+        randPick1 = calcOdds(colorChoices, coloredClothOdds, 5);
+    } else if (shoeL.asset <= 51) {
+        randPick1 = calcOdds(colorChoices, blackClothOdds, 5);
+    } else {
+        randPick1 = calcOdds(colorChoices, whiteClothOdds, 5);
+    }
+    setColorFromHex(&shoeL, randPick1);
+    copyColors(&shoeR, &shoeL);
+
+    // eyes
+    loadCreatorTextureNoColor(&eyeR, eyeL.asset);
+    int rEyesChoices[2] = {0, 1};
+    int rEyesOdds[2] = {85, 15};
+    fixEyeType(&eyeR, rEyesChoices, rEyesOdds, 2, regEyeColor, blEyeColor);
+
+    int lEyesChoices[3] = {0, 1, 2};
+    int lEyesOdds[3] = {85, 15, 0};
+    if (caste == 7) {
+        lEyesOdds[0] = 45; lEyesOdds[1] = 10; lEyesOdds[2] = 45;
+    }
+    fixEyeType(&eyeL, lEyesChoices, lEyesOdds, 3, regEyeColor, blEyeColor);
+
+    leftEyeCheck(regEyeColor, blEyeColor);
+
+    if (caste > 9) {
+        loadCreatorTextureNoColor(&body, 2);
+    } else {
+        loadCreatorTextureNoColor(&body, 1);
+    }
+
+    if (caste != 9) {
+        loadCreatorTextureNoColor(&facepaint, 0);
+    }
+
+}
+
+void randomizeTrollImperfect(void) {
+
+}
+
+void randomizeTroll(bool sym) {
+    loadCreatorTextureNoColor(&bg, 1);
+    loadCreatorTextureNoColor(&acc_back, SDL_rand(AMT_ACC_BACK+1));
+    loadCreatorTextureNoColor(&hair, SDL_rand(AMT_HAIR+1));
+    loadCreatorTextureNoColor(&body, SDL_rand(AMT_BODY)+1);
+    loadCreatorTextureNoColor(&markings, SDL_rand(AMT_MARKINGS+1));
+    loadCreatorTextureNoColor(&facepaint, SDL_rand(AMT_FACEPAINT+1));
+    loadCreatorTextureNoColor(&mouth, SDL_rand(AMT_MOUTH+1));
+    loadCreatorTextureNoColor(&eyebrows, SDL_rand(AMT_EYEBROWS+1));
+    loadCreatorTextureNoColor(&eyeL, SDL_rand(AMT_EYE+1));
+    loadCreatorTextureNoColor(&eyeR, SDL_rand(AMT_EYE+1));
+    loadCreatorTextureNoColor(&shoeL, SDL_rand(AMT_SHOE+1));
+    loadCreatorTextureNoColor(&shoeR, shoeL.asset);
+    loadCreatorTextureNoColor(&bottom, SDL_rand(AMT_BOTTOM+1));
+    loadCreatorTextureNoColor(&acc_cloth, SDL_rand(AMT_ACC_CLOTH+1));
+    loadCreatorTextureNoColor(&upper, SDL_rand(AMT_UPPER+1));
+    loadCreatorTextureNoColor(&sigil, SDL_rand(AMT_SIGIL+1));
+    loadCreatorTextureNoColor(&acc_face, SDL_rand(AMT_ACC_FACE+1));
+    loadCreatorTextureNoColor(&hornL, SDL_rand(AMT_HORN+1));
+    loadCreatorTextureNoColor(&hornR, SDL_rand(AMT_HORN+1));
+    loadCreatorTextureNoColor(&bangs, SDL_rand(AMT_BANGS+1));
+    loadCreatorTextureNoColor(&acc_hats, SDL_rand(AMT_ACC_HATS+1));
+
+    body.r = 196.0/255.0;
+    body.g = body.b = body.r;
+
+    caste = SDL_rand(12);
+    int randomColor = ((SDL_rand(150) + 50) << 16) + (SDL_rand(200) << 8) + SDL_rand(200);
+
+    int colorChoices[5] = {0x222222, hemo[caste], 0x6c6c6c, randomColor, 0xffffff};
+    int colorChoices2[5] = {0x000000, hemo[caste], randomColor, 0xffffff};
+    int blEyesOdds[5] = {10, 30, 0, 10, 50};
+    int regEyesOdds[4] = {70, 27, 3, 0};
+    int blEyeColor = calcOdds(colorChoices, blEyesOdds, 5);
+    int regEyeColor = calcOdds(colorChoices2, regEyesOdds, 4);
+    
+    // rare assets
+    layertex *rareAssets[5] = {&acc_hats, &acc_face, &acc_cloth, &acc_back, &markings};
+    int partsOdds[2] = {90, 10};
+    for (int i = 0; i < 5; i++) {
+        int partsChoices[2] = {0, rareAssets[i]->asset};
+        loadCreatorTextureNoColor(rareAssets[i], calcOdds(partsChoices, partsOdds, 2));
+    }
+
+    if (sym) randomizeTrollPerfect(colorChoices, colorChoices2, randomColor, regEyeColor, blEyeColor);
+    else randomizeTrollImperfect();
+}

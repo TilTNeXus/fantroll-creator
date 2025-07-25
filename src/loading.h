@@ -20,3 +20,4 @@ void HSLtoRGB(float *r, float *g, float *b, float h, float s, float l);
 void loadTitleScreen(void);
 void loadCreator(void);
 void loadColors(void);
+void randomizeTroll(bool sym);

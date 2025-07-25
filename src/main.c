@@ -79,6 +79,7 @@ int hemo[12] =  {   0xa10000,
                     0x6a006a,
                     0xb11262
                 };
+int caste;
 
 mat4f model;
 mat4f view;
@@ -280,27 +281,7 @@ void initDrawing(void) {
     bangs.layername = "bangs";
     acc_hats.layername = "acc_hats";
 
-    loadCreatorTexture(&acc_back, SDL_rand(AMT_ACC_BACK+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&bg, SDL_rand(AMT_BG+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&hair, SDL_rand(AMT_HAIR+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&body, SDL_rand(AMT_BODY)+1, SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&markings, SDL_rand(AMT_MARKINGS+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&facepaint, SDL_rand(AMT_FACEPAINT+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&mouth, SDL_rand(AMT_MOUTH+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&eyebrows, SDL_rand(AMT_EYEBROWS+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&eyeL, SDL_rand(AMT_EYE+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&eyeR, SDL_rand(AMT_EYE+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&shoeL, SDL_rand(AMT_SHOE+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&shoeR, SDL_rand(AMT_SHOE+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&bottom, SDL_rand(AMT_BOTTOM+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&acc_cloth, SDL_rand(AMT_ACC_CLOTH+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&upper, SDL_rand(AMT_UPPER+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&sigil, SDL_rand(AMT_SIGIL+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&acc_face, SDL_rand(AMT_ACC_FACE+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&hornL, SDL_rand(AMT_HORN+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&hornR, SDL_rand(AMT_HORN+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&bangs, SDL_rand(AMT_BANGS+1), SDL_randf(), SDL_randf(), SDL_randf());
-    loadCreatorTexture(&acc_hats, SDL_rand(AMT_ACC_HATS+1), SDL_randf(), SDL_randf(), SDL_randf());
+    randomizeTroll(1);
 
     mat4f_init(projection);
     mat4f_trans_orthographic(projection, 0.0, SCREEN_WIDTH, 0.0, SCREEN_HEIGHT, 0.1, 100.0);

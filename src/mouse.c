@@ -41,28 +41,12 @@ void updateClickedButtons(int clicked) {
     switch (clicked) {
         case -1:
             break;
+        case 0:
+            randomizeTroll(1);
+            break;
         case 3:
-            loadCreatorTexture(&acc_back, SDL_rand(AMT_ACC_BACK+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&bg, SDL_rand(AMT_BG+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&hair, SDL_rand(AMT_HAIR+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&body, SDL_rand(AMT_BODY)+1, SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&markings, SDL_rand(AMT_MARKINGS+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&facepaint, SDL_rand(AMT_FACEPAINT+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&mouth, SDL_rand(AMT_MOUTH+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&eyebrows, SDL_rand(AMT_EYEBROWS+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&eyeL, SDL_rand(AMT_EYE+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&eyeR, SDL_rand(AMT_EYE+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&shoeL, SDL_rand(AMT_SHOE+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&shoeR, SDL_rand(AMT_SHOE+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&bottom, SDL_rand(AMT_BOTTOM+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&acc_cloth, SDL_rand(AMT_ACC_CLOTH+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&upper, SDL_rand(AMT_UPPER+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&sigil, SDL_rand(AMT_SIGIL+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&acc_face, SDL_rand(AMT_ACC_FACE+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&hornL, SDL_rand(AMT_HORN+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&hornR, SDL_rand(AMT_HORN+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&bangs, SDL_rand(AMT_BANGS+1), SDL_randf(), SDL_randf(), SDL_randf());
-            loadCreatorTexture(&acc_hats, SDL_rand(AMT_ACC_HATS+1), SDL_randf(), SDL_randf(), SDL_randf());
+            randomizeTroll(0);
+            break;
         break;
         case 7:
             if (activeCategory == 0) {

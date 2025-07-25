@@ -152,3 +152,4 @@ extern int sliderX[3];
 extern int editingSlider;
 extern vec3f originalColor;
 extern int hemo[12];
+extern int caste;
