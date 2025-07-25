@@ -47,7 +47,6 @@ void updateClickedButtons(int clicked) {
         case 3:
             randomizeTroll(0);
             break;
-        break;
         case 7:
             if (activeCategory == 0) {
                 editingLayer = &body;
@@ -294,16 +293,18 @@ int detectUIButtonsColor(mouseState ms) {
             clickedButton = -1;
         }
     }
-    for (int i = 0; i < 12; i++) {
-        presetsX = 224 + buttonsSize*(i%6);
-        presetsY = 100 - 2*buttonsSize*(i/6);
-        if (mouseInBox(ms, presetsX, presetsX+buttonsSize, presetsY, presetsY+buttonsSize)) {
-            clickedButton = i+45;
-            break;
+    if (activeColorMode == 2) {
+        for (int i = 0; i < 12; i++) {
+            presetsX = 224 + buttonsSize*(i%6);
+            presetsY = 100 - 2*buttonsSize*(i/6);
+            if (mouseInBox(ms, presetsX, presetsX+buttonsSize, presetsY, presetsY+buttonsSize)) {
+                clickedButton = i+45;
+                break;
+            }
         }
-    }
     if (mouseInBox(ms, 448, 480, 32, 64)) clickedButton = 57;
     // todo: button 58 is the color info
+    }
     if (mouseInBox(ms, 516, 541, 166, 193)) clickedButton = 59;
     if (mouseInBox(ms, 579, 604, 166, 193)) clickedButton = 60;
     buttonsClicked[clickedButton] = 1;
@@ -613,6 +614,7 @@ void updateSlidersColor(mouseState ms, layertex *layer) {
         } else if (activeColorMode == 1) {
             float r, g, b, h, s, l;
             RGBtoHSL(&h, &s, &l, layer->r, layer->g, layer->b);
+            if (s < 0.001) s = 0.001;
             HSLtoRGB(&r, &g, &b, cursorPercent, s, l);
             layer->r = r;
             layer->g = g;
