@@ -345,19 +345,19 @@ void updateClickedButtonsColor(layertex *layer, int clicked) {
     }
     switch (clicked) {
         case 0: // rust
-            r = 0xa1;
-            g = 0;
-            b = 0;
+            r = (hemo[0] & 0xff0000) >> 16;
+            g = (hemo[0] & 0x00ff00) >> 8;
+            b = (hemo[0] & 0x0000ff);
             break;
         case 1: // bronze
-            r = 0xa7;
-            g = 0x54;
-            b = 0x03;
+            r = (hemo[1] & 0xff0000) >> 16;
+            g = (hemo[1] & 0x00ff00) >> 8;
+            b = (hemo[1] & 0x0000ff);
             break;
         case 2: // gold
-            r = 0xa1;
-            g = 0xa1;
-            b = 0x00;
+            r = (hemo[2] & 0xff0000) >> 16;
+            g = (hemo[2] & 0x00ff00) >> 8;
+            b = (hemo[2] & 0x0000ff);
             break;
         case 4: // breath bg
             r = 0x00;
@@ -385,19 +385,19 @@ void updateClickedButtonsColor(layertex *layer, int clicked) {
             b = 0xff;
             break;
         case 9: // lime
-            r = 0x6b;
-            g = 0x84;
-            b = 0x00;
+            r = (hemo[3] & 0xff0000) >> 16;
+            g = (hemo[3] & 0x00ff00) >> 8;
+            b = (hemo[3] & 0x0000ff);
             break;
         case 10: // olive
-            r = 0x40;
-            g = 0x66;
-            b = 0x00;
+            r = (hemo[4] & 0xff0000) >> 16;
+            g = (hemo[4] & 0x00ff00) >> 8;
+            b = (hemo[4] & 0x0000ff);
             break;
         case 11: // jade
-            r = 0x07;
-            g = 0x84;
-            b = 0x46;
+            r = (hemo[5] & 0xff0000) >> 16;
+            g = (hemo[5] & 0x00ff00) >> 8;
+            b = (hemo[5] & 0x0000ff);
             break;
         case 13: // light bg
             r = 0xf9;
@@ -425,19 +425,19 @@ void updateClickedButtonsColor(layertex *layer, int clicked) {
             b = 0xc4;
             break;
         case 18: // teal
-            r = 0x00;
-            g = 0x82;
-            b = 0x82;
+            r = (hemo[6] & 0xff0000) >> 16;
+            g = (hemo[6] & 0x00ff00) >> 8;
+            b = (hemo[6] & 0x0000ff);
             break;
         case 19: // blue
-            r = 0x00;
-            g = 0x41;
-            b = 0x82;
+            r = (hemo[7] & 0xff0000) >> 16;
+            g = (hemo[7] & 0x00ff00) >> 8;
+            b = (hemo[7] & 0x0000ff);
             break;
         case 20: // indigo
-            r = 0x00;
-            g = 0x21;
-            b = 0xcb;
+            r = (hemo[8] & 0xff0000) >> 16;
+            g = (hemo[8] & 0x00ff00) >> 8;
+            b = (hemo[8] & 0x0000ff);
             break;
         case 22: // time bg
             r = 0xb7;
@@ -465,19 +465,19 @@ void updateClickedButtonsColor(layertex *layer, int clicked) {
             b = 0x98;
             break;
         case 27: // purple
-            r = 0x5e;
-            g = 0x00;
-            b = 0xa0;
+            r = (hemo[9] & 0xff0000) >> 16;
+            g = (hemo[9] & 0x00ff00) >> 8;
+            b = (hemo[9] & 0x0000ff);
             break;
         case 28: // violet
-            r = 0x6a;
-            g = 0x00;
-            b = 0x6a;
+            r = (hemo[10] & 0xff0000) >> 16;
+            g = (hemo[10] & 0x00ff00) >> 8;
+            b = (hemo[10] & 0x0000ff);
             break;
         case 29: // fuchsia
-            r = 0xb1;
-            g = 0x12;
-            b = 0x62;
+            r = (hemo[11] & 0xff0000) >> 16;
+            g = (hemo[11] & 0x00ff00) >> 8;
+            b = (hemo[11] & 0x0000ff);
             break;
         case 31: // mind bg
             r = 0x3d;

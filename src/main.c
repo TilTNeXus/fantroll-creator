@@ -66,6 +66,20 @@ layertex shoeR;
 layertex sigil;
 layertex upper;
 
+int hemo[12] =  {   0xa10000,
+                    0xa75403,
+                    0xa1a100,
+                    0x6b8400,
+                    0x406600,
+                    0x078446,
+                    0x008282,
+                    0x004182,
+                    0x0021cb,
+                    0x5e00a0,
+                    0x6a006a,
+                    0xb11262
+                };
+
 mat4f model;
 mat4f view;
 mat4f projection;
